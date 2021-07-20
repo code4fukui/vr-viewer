@@ -20,7 +20,7 @@ onload = async () => {
         continue;
       }
       const url = await readAsDataURLAsync(item.file);
-      if (droptext) {
+      if (document.getElementById("droptext")) {
         scene.removeChild(droptext);
       }
       sky.setAttribute("src", url);
