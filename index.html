@@ -1,0 +1,33 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>vr-viewer</title>
+<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body>
+<a-scene id=scene>
+<a-sky id=sky></a-sky>
+<a-text id=droptext position="0 1.5 -1" width="4" color="black" rotation="0 0 0" align="center" value="Drop 360deg JPG File here"></a-text>
+</a-scene>
+
+<script type="module">
+import { waitDropFiles } from "https://js.sabae.cc/waitDropFiles.js";
+import { readAsDataURLAsync } from "https://js.sabae.cc/readAsDataURLAsync.js";
+
+onload = async () => {
+  for (;;) {
+    const items = await waitDropFiles(document.body);
+    for (const item of items) {
+      if (!item.file.name.toLowerCase().endsWith(".jpg")) {
+        continue;
+      }
+      const url = await readAsDataURLAsync(item.file);
+      if (droptext) {
+        scene.removeChild(droptext);
+      }
+      sky.setAttribute("src", url);
+      break;
+    }
+  }
+};
+</script>
+</body>
+</html>
